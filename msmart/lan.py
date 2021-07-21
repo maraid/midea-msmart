@@ -70,13 +70,13 @@ class lan:
     def _authenticate(self):
         if not self._token or not self._key:
             raise Exception('missing token key pair')
-        _LOGGER.error('token: ' + str(self._token))
+        _LOGGER.error(f'length: {len(self._token)} token: {self._token.hex}')
         request = self.security.encode_8370(self._token, MSGTYPE_HANDSHAKE_REQUEST)
-        _LOGGER.error('request: ' + str(request))
+        _LOGGER.error(f'length: {len(request)} token: {request.hex}')
         response = self.request(request)
-        _LOGGER.error('response: ' + str(response))
+        _LOGGER.error(f'length: {len(response)} token: {response.hex}')
         response = response[8:72]
-        _LOGGER.error('response: ' + str(response))
+        _LOGGER.error(f'length: {len(response)} token: {response.hex}')
         try:
             tcp_key = self.security.tcp_key(response, self._key)
             _LOGGER.debug('Got TCP key for {}:{} {}'.format(self.device_ip, self.device_port, tcp_key.hex()))
